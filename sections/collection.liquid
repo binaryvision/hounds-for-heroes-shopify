@@ -26,7 +26,11 @@
 
   <div class="grid grid--uniform grid--view-items">
     {% for product in collection.products limit: product_limit %}
-      <div class="grid__item grid__item--{{section.id}} {{ grid_item_width }}">
+       {% if product.title == 'Donate' %}
+       <div class="grid__item grid__item--{{section.id}}">
+       {% else %}
+       <div class="grid__item grid__item--{{section.id}} {{ grid_item_width }}">
+       {% endif %}
         {% include 'product-card-grid', max_height: max_height %}
       </div>
     {% else %}

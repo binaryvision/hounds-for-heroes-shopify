@@ -16,7 +16,7 @@ assets/password.js:
 assets/theme.js:
   development: 2017-09-21T21:34:20+01:00   a8bdb05883ccb3d71d0cd45409d6d12c
 assets/theme.scss.liquid:
-  development: 2017-10-12T14:35:16+01:00   8e543594f51ba9246136b247e491fc98
+  development: 2017-10-12T16:13:44+01:00   ae5c6e7fef7217f29d7ae47e3a80b03f
 assets/vendor.js:
   development: 2017-08-29T14:50:02+01:00   cb7c4217c9b6feb844647b361accfe6c
 config/settings_data.json:
@@ -54,7 +54,7 @@ sections/collection-list.liquid:
 sections/collection-template.liquid:
   development: 2017-10-11T11:58:16+01:00   3c635f9290cde0a0c41cc9372d63d298
 sections/collection.liquid:
-  development: 2017-08-29T14:50:00+01:00   2b354ddc56741c41be0ee62a912b4ce4
+  development: 2017-10-12T16:11:46+01:00   916c3b51f34976b7d35686a2676b4e72
 sections/custom-content.liquid:
   development: 2017-08-29T14:50:00+01:00   9abed1c1562136145fb81ea24137c7ac
 sections/feature-columns.liquid:
