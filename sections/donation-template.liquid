@@ -66,23 +66,18 @@
         <img src="{{ featured_image | img_url: product_image_size, scale: product_image_scale }}" alt="{{ featured_image.alt }}" id="FeaturedImage-{{ section.id }}" class="product-featured-img" style="max-width: {{ height }}px;">
       </noscript>
 
-     
       {% if product.images.size > 1 %}
         {% if product.images.size > 3 %}
           {%- assign enable_thumbnail_slides = true -%}
         {% endif %}
-      
 
         <div class="thumbnails-wrapper{% if enable_thumbnail_slides == true %} thumbnails-slider--active{% endif %}">
-        
           {% if enable_thumbnail_slides == true %}
             <button type="button" class="btn btn--link medium-up--hide thumbnails-slider__btn thumbnails-slider__prev thumbnails-slider__prev--{{ section.id }}">
               {% include 'icon-chevron-left' %}
               <span class="icon__fallback-text">{{ 'sections.slideshow.previous_slide' | t }}</span>
             </button>
           {% endif %}
-          
-           {% comment %} 
           <ul class="grid grid--uniform product-single__thumbnails product-single__thumbnails-{{ section.id }}">
             {% for image in product.images %}
               <li class="grid__item {{ product_thumbnail_width }} product-single__thumbnails-item js">
@@ -95,7 +90,6 @@
               </li>
             {% endfor %}
           </ul>
-           {% endcomment %}
           {% if enable_thumbnail_slides == true %}
             <button type="button" class="btn btn--link medium-up--hide thumbnails-slider__btn thumbnails-slider__next thumbnails-slider__next--{{ section.id }}">
               {% include 'icon-chevron-right' %}
@@ -174,7 +168,11 @@
 
             {% if section.settings.show_quantity_selector %}
               <div class="product-form__item product-form__item--quantity">
-                <label for="Quantity">{{ 'products.product.quantity' | t }}</label>
+              <!-- End: Donation Product Starts -->
+                <div id="other-amount" style="display:none;">
+                <label for="OtherAmount">Enter Amount:</label>
+                <input type="text" id="OtherAmount"  />
+                </div>
                 <input type="number" id="Quantity" name="quantity" value="1" min="1" class="product-form__input" pattern="[0-9]*">
               </div>
             {% endif %}
@@ -220,6 +218,83 @@
     {{ product | json }}
   </script>
 {% endunless %}
+
+{% comment %}
+  To take advantage of a callback on the select dropdown, add option_selection.js
+  and customize the JS in timber.productPage as needed.
+
+  Currently, timber.productPage does the following:
+    - Hides your <select> tag from above
+    - Breaks out the product variants into separate product options, if more than one exists
+    - Generates a <select> tag for each product option
+    - Enables/disables elements based on variant availability
+
+  Callback notes:
+    - Keep the callback available to the global scope (window.selectCallback) so that advanced
+      addons can override it.
+      * E.g. multiple currencies http://docs.shopify.com/manual/configuration/store-customization/currencies-and-translations/currencies/how-to-toggle-between-two-currencies
+{% endcomment %}
+{{ 'option_selection.js' | shopify_asset_url | script_tag }}
+<script>
+  var selectCallback = function(variant, selector) {
+    timber.productPage({
+      money_format: "{{ shop.money_format }}",
+      variant: variant,
+      selector: selector
+    });
+    
+	// Donation Product Code Starts
+    variantName = (variant.title).toLowerCase();    
+    if(variantName == 'other'){
+    	$('#other-amount').show(0);
+        $('#OtherAmount').prop('required', true).val('');
+        $('#ProductPrice').hide(0);
+    } else {
+    	$('#other-amount').hide(0);
+        $('#OtherAmount').prop('required', false).val('');
+        $('#Quantity').val(1)
+        $('#ProductPrice').show(0);
+    }    
+	// Donation Product Code Ends
+    
+    
+  };
+
+  jQuery(function($) {
+    new Shopify.OptionSelectors('ProductSelect', {
+      product: {{ product | json }},
+      onVariantSelected: selectCallback,
+      enableHistoryState: true
+    });
+
+    // Add label if only one product option and it isn't 'Title'. Could be 'Size'.
+    {% if product.options.size == 1 and product.options.first != 'Title' %}
+      $('.selector-wrapper:eq(0)').prepend('<label for="productSelect-option-0">{{ product.options.first | escape }}</label>');
+    {% endif %}
+
+    // Hide selectors if we only have 1 variant and its title contains 'Default'.
+    {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
+      $('.selector-wrapper').hide();
+    {% endif %}
+	
+	// Donation Product Code Starts
+    $('#OtherAmount').keyup(function(){
+    	console.log($(this).val());
+        otherAmountValue = $(this).val();
+          if(otherAmountValue == 0){
+            alert('Please enter some value');
+            $(this).val('');
+            return false;
+          }
+      
+        AmountPriceFormat = '$'+otherAmountValue;
+        $('#Quantity').val(otherAmountValue);
+        $('#ProductPrice').show(0).text(AmountPriceFormat);
+    });
+	// Donation Product Code Ends
+    
+  });
+</script>
 
 {% schema %}
   {

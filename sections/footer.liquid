@@ -15,6 +15,20 @@
   {%- assign social_icons = true -%}
 {% endif %}
 
+ {% comment %}
+<footer class="prefooter">
+  <div class="prefooter__usefullinks">
+  <h3>Useful links</h3>
+  <p><a href="#">Returns & Refunds</a></p>
+  <p>Delivery and Postage</p>
+  <p>International enquiries</p>
+  
+  </div>
+  <div class="prefooter__payments">
+  Shopify Ecommerce site by &nbsp; <a href="https://www.binaryvision.com">{{ 'bvlogo.png' | asset_url | img_tag: 'BV logo' }}</a></div>
+</footer>
+ {% endcomment %}
+
 <footer class="site-footer" role="contentinfo">
   <div class="page-width">
     <div class="grid grid--no-gutters">
@@ -157,15 +171,16 @@
       {% endif %}
 
       <div class="grid__item{% if section.settings.footer_newsletter_enable and social_icons == true %} medium-up--one-half{% else %} text-center{% endif %}">
-        <div class="site-footer__copyright{% if social_icons and section.settings.footer_newsletter_enable != blank %} site-footer__copyright--right medium-up--text-right{% elsif social_icons == false and section.settings.footer_newsletter_enable %} medium-up--text-left{% endif %}">
-          {% unless social_icons and section.settings.footer_newsletter_enable and section.settings.show_payment_icons %}
-            {% comment %}
-            <small class="site-footer__copyright-content copytext">&copy; {{ 'now' | date: "%Y" }}, {{ shop.name | link_to: '/' }}</small>
-            {% endcomment %}
-            <small class="site-footer__copyright-content copytext">Hounds for Heroes is a registered charity in England and Wales (1134359) and Scotland (SC043751). A company limited by guarantee, registered in England and Wales (07130031). Registered address: Unit 2B,Rookery Farm Buildings,Ramsdean,Petersfield,Hants GU32 1RU</small>
-            <small class="site-footer__copyright-content site-footer__copyright-content--powered-by">{{ powered_by_link }}</small>
-          {% endunless %}
-          {% if section.settings.show_payment_icons %}
+       <div class="site-footer__usefullinks{% if social_icons and section.settings.footer_newsletter_enable != blank %} site-footer__copyright--right medium-up--text-right{% elsif social_icons == false and section.settings.footer_newsletter_enable %} medium-up--text-left{% endif %}">
+      <h3>Useful links</h3>
+      <p><a href="www.houndforheroes.com">Hounds for Heroes main site</a></p>
+  <p><a href="https://houndsforheroes.myshopify.com/pages/returns-policy">Returns & Refunds</a></p>
+  <p><a href="https://houndsforheroes.myshopify.com/pages/delivery-and-postage">Delivery and Postage</a></p>
+  <p><a href="https://houndsforheroes.myshopify.com/pages/international-enquiries">International enquiries</a></p>
+       </div>
+       <div class="site-footer__usefullinks{% if social_icons and section.settings.footer_newsletter_enable != blank %} site-footer__copyright--right medium-up--text-right{% elsif social_icons == false and section.settings.footer_newsletter_enable %} medium-up--text-left{% endif %}">
+         <h3>Accepted payments</h3>
+         {% if section.settings.show_payment_icons %}
             <div class="site-footer__payment-icons{% unless social_icons or section.settings.footer_newsletter_enable == blank %} site-footer__payment-icons--right{% endunless %}">
               {% unless shop.enabled_payment_types == empty %}
                 {%- assign payment_icons_available = 'amazon_payments,american_express,apple_pay,bitcoin,cirrus,dankort,diners_club,discover,dogecoin,dwolla,forbrugsforeningen,interac,jcb,litecoin,maestro,master,paypal,stripe,visa' | split: ',' -%}
@@ -182,7 +197,24 @@
               {% endunless %}
             </div>
           {% endif %}
+         </div>
+         <div class="site-footer__usefullinks{% if social_icons and section.settings.footer_newsletter_enable != blank %} site-footer__copyright--right medium-up--text-right{% elsif social_icons == false and section.settings.footer_newsletter_enable %} medium-up--text-left{% endif %}">
+         <h3>Shopify Ecommerce site by <a href="https://www.binaryvision.com">Binary Vision</a></</h3>
         </div>
+        <div class="site-footer__copyright{% if social_icons and section.settings.footer_newsletter_enable != blank %} site-footer__copyright--right medium-up--text-right{% elsif social_icons == false and section.settings.footer_newsletter_enable %} medium-up--text-left{% endif %}">
+          {% unless social_icons and section.settings.footer_newsletter_enable and section.settings.show_payment_icons %}
+            {% comment %}
+            <small class="site-footer__copyright-content copytext">&copy; {{ 'now' | date: "%Y" }}, {{ shop.name | link_to: '/' }}</small>
+            {% endcomment %}
+            <small class="site-footer__copyright-content copytext">Hounds for Heroes is a registered charity in England and Wales (1134359) and Scotland (SC043751). A company limited by guarantee, registered in England and Wales (07130031). Registered address: Unit 2B, Rookery Farm Buildings, Ramsdean, Petersfield, Hants GU32 1RU</small>
+             {% comment %}<small class="site-footer__copyright-content site-footer__copyright-content--powered-by copytext">{{ powered_by_link }}</small>{% endcomment %}
+          {% endunless %}
+        </div>
+        {% comment %}
+        <div class="site-footer__bv">
+          <small class="site-footer__copyright-content copytext">Shopify Ecommerce site by &nbsp; <a href="https://www.binaryvision.com">{{ 'bvlogo.png' | asset_url | img_tag: 'BV logo' }}</a></small>
+        </div> 
+         {% endcomment %} 
       </div>
     </div>
     {% if social_icons and section.settings.footer_newsletter_enable and section.settings.show_payment_icons %}

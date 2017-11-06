@@ -32,10 +32,12 @@
               <input type="email" id="ContactFormEmail" name="contact[email]" autocorrect="off" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" class="{% if form.errors contains 'email' %}input--error{% endif %}">
             </div>
           </div>
-
+         
+         {% comment %} 
           <label for="ContactFormPhone">{{ 'contact.form.phone' | t }}</label>
           <input type="tel" id="ContactFormPhone" name="contact[phone]" pattern="[0-9\-]*" value="{% if form[phone] %}{{ form[phone] }}{% elsif customer %}{{ customer.phone }}{% endif %}">
-
+         {% endcomment %} 
+         
           <label for="ContactFormMessage">{{ 'contact.form.message' | t }}</label>
           <textarea rows="10" id="ContactFormMessage" name="contact[body]">{% if form.body %}{{ form.body }}{% endif %}</textarea>
 
